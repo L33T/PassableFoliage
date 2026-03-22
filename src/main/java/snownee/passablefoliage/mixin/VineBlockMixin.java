@@ -1,5 +1,7 @@
 package snownee.passablefoliage.mixin;
 
+import net.minecraft.world.level.block.MultifaceBlock;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,7 +22,8 @@ public class VineBlockMixin {
 	private static void pfoliage_isAcceptableNeighbour(BlockGetter world, BlockPos neighborPos, Direction direction, CallbackInfoReturnable<Boolean> ci) {
 		BlockState blockstate = world.getBlockState(neighborPos);
 		PassableFoliage.setSuppressPassableCheck(true);
-		boolean bl = Block.isFaceFull(blockstate.getCollisionShape(world, neighborPos), direction.getOpposite());
+		//boolean bl = Block.isFaceFull(blockstate.getCollisionShape(world, neighborPos), direction.getOpposite());
+		boolean bl = MultifaceBlock.canAttachTo(world, direction, neighborPos, blockstate);
 		PassableFoliage.setSuppressPassableCheck(false);
 		ci.setReturnValue(bl);
 	}
